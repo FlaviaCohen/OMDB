@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Favs } = require('../models');
 
 router.get('/', (req,res)=>{
     res.send('Ruta /api/favs')

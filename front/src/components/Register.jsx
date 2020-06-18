@@ -1,31 +1,37 @@
 import React from "react";
 
-const Register = () => {
+const Register = ({ handleNameChange, handleEmailChange, handlePasswordChange, handleSubmit }) => {
   return (
       <div className="container-fluid" style={{'maxWidth': '40%', 'marginTop': '20px'}}>
-        <form>
+        <form onSubmit={handleSubmit}>
         <div className="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input
+            <label>Name</label>
+            <input onChange={handleNameChange}
+            type="text"
+            className="form-control"
+            id="email"
+            placeholder="Enter your Name or Nickname"
+            />
+        </div>
+        <div className="form-group">
+            <label>Email address</label>
+            <input onChange={handleEmailChange}
             type="email"
             className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
+            id="email"
             placeholder="Enter email"
             />
         </div>
         <div className="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input
+            <label>Password</label>
+            <input onChange={handlePasswordChange}
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
+            id="password"
             placeholder="Password"
             />
         </div>
-            <button type="submit" className="btn btn-success" style={{display:'flex', justifyContent: 'center'}}>
-            Register
-            </button>
+            <button type="submit" className="btn btn-success" style={{display:'flex', justifyContent: 'center'}}>Register</button>
         </form>
     </div>
   );

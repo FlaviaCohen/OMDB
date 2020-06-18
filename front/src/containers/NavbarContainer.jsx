@@ -22,20 +22,30 @@ class NavbarContainer extends React.Component {
     handleSubmit(event){
         event.preventDefault();
         this.props.fetchMovies(this.state.inputValue)
-        /* history.push('/movies') */
+        this.props.history.push('/movies')
     }
     
     render(){
+        console.log('USER! ', this.props.user.user)
         const { inputValue } = this.state
+        const { user } = this.props
         return(
             <div>
                 <Navbar
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
                 inputValue={inputValue}
+                user={user}
                 />
             </div>
         )
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        history: ownProps.history,
+        user: state.usersReducer.loggedUser
     }
 }
 
@@ -45,4 +55,4 @@ const mapDispatchToProps = (dispatch)=>{
     }
 }
 
-export default connect(null, mapDispatchToProps)(NavbarContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarContainer);

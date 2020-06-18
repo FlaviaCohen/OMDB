@@ -10,7 +10,7 @@ class SingleMovieContainer extends React.Component {
 
     componentDidMount(){
         this.props.fetchMovie(this.props.id)
-    }
+    } // porque lo que dispara fetchMovie es el ingreso a la url
 
     render(){
         const { movie } = this.props
@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchMovie: (id) => {dispatch(fetchMovie(id))}
+        fetchMovie: (id) => {dispatch(fetchMovie(id))} // No se ejecuta inmediatamente sino que está lista para ejecutar
     }
 }
 

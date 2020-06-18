@@ -16,7 +16,7 @@ const Movies = ({ filteredMovies })=> {
                         </div>
                     </div>
                 )
-            }) : null } 
+            }) : <h1> OMDB HOME </h1> } 
             </div>
         </div>
     )
