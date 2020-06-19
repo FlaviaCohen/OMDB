@@ -1,7 +1,7 @@
 import { ADD_USER, SET_USER, RESET_USER } from '../constants';
 import axios from 'axios';
 
-const newUser = (user)=> {
+const newUser = (user) => {
     return {
         type: ADD_USER,
         user,

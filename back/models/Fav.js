@@ -11,6 +11,6 @@ Fav.init({
         type: S.STRING,
     },
 
-},{ sequelize: db, modelName: 'fav'})
+},{ sequelize: db, modelName: 'fav' })
 
 module.exports = Fav;

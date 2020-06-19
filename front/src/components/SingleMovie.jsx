@@ -1,6 +1,6 @@
 import React from "react";
 
-const SingleMovie = ({ movie }) => {
+const SingleMovie = ({ movie, user, handleClick }) => {
   return (
     <div className="container-fluid" style={{'maxWidth': '80%'}}>
       <div className="card mb-3" style={{'marginTop': '20px'}}>
@@ -27,6 +27,7 @@ const SingleMovie = ({ movie }) => {
                         <li>IMDB: {movie.imdbRating}</li>
                 </ul>
               </small>
+              {user ? <button className="btn btn-danger" onClick={handleClick}>Add to Favorites</button> : null}
             </div>
           </div>
         </div>

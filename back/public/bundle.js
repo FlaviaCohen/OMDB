@@ -37753,7 +37753,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SingleMovie = function SingleMovie(_ref) {
-  var movie = _ref.movie;
+  var movie = _ref.movie,
+      user = _ref.user,
+      handleClick = _ref.handleClick;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container-fluid",
     style: {
@@ -37794,7 +37796,10 @@ var SingleMovie = function SingleMovie(_ref) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: objeto.Value
     }, objeto.Source, " : ", objeto.Value);
-  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "IMDB: ", movie.imdbRating))))))));
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "IMDB: ", movie.imdbRating))), user ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-danger",
+    onClick: handleClick
+  }, "Add to Favorites") : null)))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SingleMovie);
@@ -38462,6 +38467,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_SingleMovie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/SingleMovie */ "./src/components/SingleMovie.jsx");
 /* harmony import */ var _redux_action_creators_movies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redux/action-creators/movies */ "./src/redux/action-creators/movies.js");
+/* harmony import */ var _redux_action_creators_favs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../redux/action-creators/favs */ "./src/redux/action-creators/favs.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38489,18 +38495,28 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var SingleMovieContainer = /*#__PURE__*/function (_React$Component) {
   _inherits(SingleMovieContainer, _React$Component);
 
   var _super = _createSuper(SingleMovieContainer);
 
   function SingleMovieContainer(props) {
+    var _this;
+
     _classCallCheck(this, SingleMovieContainer);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(SingleMovieContainer, [{
+    key: "handleClick",
+    value: function handleClick() {
+      this.props.addToFavs(this.props.movie.Title, this.props.movie.Poster, this.props.user.id);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchMovie(this.props.id);
@@ -38509,9 +38525,13 @@ var SingleMovieContainer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          user = _this$props.user;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_SingleMovie__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        movie: movie
+        movie: movie,
+        user: user,
+        handleClick: this.handleClick
       }));
     }
   }]);
@@ -38522,7 +38542,8 @@ var SingleMovieContainer = /*#__PURE__*/function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     id: ownProps.match.params.id,
-    movie: state.moviesReducer.movie
+    movie: state.moviesReducer.movie,
+    user: state.usersReducer.loggedUser.user
   };
 };
 
@@ -38530,8 +38551,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchMovie: function fetchMovie(id) {
       dispatch(Object(_redux_action_creators_movies__WEBPACK_IMPORTED_MODULE_3__["fetchMovie"])(id));
-    } // No se ejecuta inmediatamente sino que está lista para ejecutar
-
+    },
+    // No se ejecuta inmediatamente sino que está lista para ejecutar
+    addToFavs: function addToFavs(title, poster, user) {
+      dispatch(Object(_redux_action_creators_favs__WEBPACK_IMPORTED_MODULE_4__["addToFavs"])(title, poster, user));
+    }
   };
 };
 
@@ -38584,6 +38608,45 @@ Poder sacar películas de tu lista de favoritos.
 Ver Pista
 Buscar Usuarios.
 Ver el perfil de un usuario con sus películas favoritas. */
+
+/***/ }),
+
+/***/ "./src/redux/action-creators/favs.js":
+/*!*******************************************!*\
+  !*** ./src/redux/action-creators/favs.js ***!
+  \*******************************************/
+/*! exports provided: addToFavs */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToFavs", function() { return addToFavs; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/redux/constants.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+var getFavs = function getFavs(favs) {
+  return {
+    rype: _constants__WEBPACK_IMPORTED_MODULE_0__["GET_FAVS"],
+    favs: favs
+  };
+};
+
+var addToFavs = function addToFavs(title, poster, user) {
+  return function () {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/favs', {
+      title: title,
+      poster: poster,
+      user: user
+    });
+  };
+};
+/* export const getMyFavs = () => dispatch => 
+    axios.get('/api/favs')
+    .then(res => res.data)
+    .then(favs => dispatch(getFavs(favs))) */
 
 /***/ }),
 
@@ -38725,7 +38788,7 @@ var resetUser = function resetUser() {
 /*!********************************!*\
   !*** ./src/redux/constants.js ***!
   \********************************/
-/*! exports provided: SET_MOVIES, SET_MOVIE, ADD_USER, SET_USER, CHECK_USER, RESET_USER */
+/*! exports provided: SET_MOVIES, SET_MOVIE, ADD_USER, SET_USER, CHECK_USER, RESET_USER, GET_FAVS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38736,12 +38799,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_USER", function() { return SET_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHECK_USER", function() { return CHECK_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_USER", function() { return RESET_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_FAVS", function() { return GET_FAVS; });
 var SET_MOVIES = 'SET_MOVIES';
 var SET_MOVIE = 'SET_MOVIE';
 var ADD_USER = 'ADD_USER';
 var SET_USER = 'SET_USER';
 var CHECK_USER = 'CHECK_USER';
 var RESET_USER = 'RESET_USER';
+var GET_FAVS = 'GET_FAVS';
+
+/***/ }),
+
+/***/ "./src/redux/reducers/favs-reducer.js":
+/*!********************************************!*\
+  !*** ./src/redux/reducers/favs-reducer.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/redux/constants.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+var initialState = {
+  favs: []
+};
+
+var favsReducer = function favsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants__WEBPACK_IMPORTED_MODULE_0__["GET_FAVS"]:
+      return {
+        favs: [].concat(_toConsumableArray(state.favs), [action.favs])
+      };
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (favsReducer);
 
 /***/ }),
 
@@ -38757,13 +38868,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 /* harmony import */ var _moovies_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./moovies-reducer */ "./src/redux/reducers/moovies-reducer.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./users-reducer */ "./src/redux/reducers/users-reducer.js");
+/* harmony import */ var _favs_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./favs-reducer */ "./src/redux/reducers/favs-reducer.js");
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   moviesReducer: _moovies_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   // moviesReducer: moviesReducer
-  usersReducer: _users_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  usersReducer: _users_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  favsReducer: _favs_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),
