@@ -15,3 +15,34 @@ Objetivos:
 * Ver el perfil de un usuario con sus películas favoritas.
 
 Para instalar este proyecto de manera local: 
+
+Posicionarse en la carpeta /front y correr en la terminal
+
+```
+npm i
+```
+```
+npm run build
+```
+
+Posicionarse en la carpeta /back y correr en la terminal
+
+```
+npm i
+```
+```
+npm start
+```
+```
+http://localhost:3000
+```
+
+
+## Built With
+
+* [React](https://es.reactjs.org/docs/getting-started.html) 
+* [Redux](https://redux.js.org/introduction/getting-started)
+* [Bootstrap](https://getbootstrap.com/docs/4.5/getting-started/introduction) 
+* [Sequelize](https://sequelize.org)
+* [Node](https://nodejs.org/es/docs)
+
